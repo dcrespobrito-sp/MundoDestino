@@ -1,9 +1,265 @@
 package Vistas;
 
+import java.util.InputMismatchException;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Scanner;
+import java.util.stream.Collectors;
+
+import Controlador.DestinoControlador;
+import DTO.Destino;
+
 public class DestinoView {
 
-	public DestinoView() {
-		// TODO Auto-generated constructor stub
-	}
+    int opcion=-1;
+    Scanner sc = new Scanner(System.in);
+    DestinoControlador controlador = new DestinoControlador();
+
+    public void menuDestino() {
+
+        while (opcion != 0) {
+        	
+          try {
+        	  
+          
+            System.out.println("---MENU DESTINO---");
+            System.out.println("0. Volver");
+            System.out.println("1. Registrar destino");
+            System.out.println("2. Listar todos los destinos");
+            System.out.println("3. Listar destinos por categoría");
+            System.out.println("4. Modificar destino");
+            System.out.println("5. Eliminar destino");
+            System.out.print("Elige una opción: ");
+
+            opcion = sc.nextInt();
+            
+
+            switch (opcion) {
+                case 0:
+                    System.out.println("Volviendo al menú principal...");
+                    break;
+
+                case 1:
+                    registrarDestino();
+                    break;
+
+                case 2:
+                    listarDestinos();
+                    break;
+                case 3:
+                	listarPorCategoria();
+                	break;
+                case 4:
+					modificarDestino();
+					break;
+                case 5:
+                	eliminarDestino();
+                	break;
+
+                default:
+                    System.out.println("Opción no válida.");
+            }
+          } catch (InputMismatchException e) {//Captura el error si el usuario introduce letras en vez de números
+
+				System.out.println("ERROR: Debes introducir un número.");
+				sc.nextLine(); //Limpiamos buffer
+			}
+        }
+    }
+
+    public void registrarDestino() {
+
+        sc.nextLine(); //Limpiamos buffer antes de leer cadenas
+
+        System.out.print("Nombre: ");
+        String Nombre = sc.nextLine();
+
+        System.out.print("País: ");
+        String Pais = sc.nextLine();
+
+        System.out.print("Ciudad: ");
+        String Ciudad = sc.nextLine();
+
+        System.out.print("Descripción: ");
+        String Descripcion = sc.nextLine();
+
+        System.out.print("Precio base: ");
+        double Precio_base = sc.nextDouble();
+        sc.nextLine();//Limpiamos buffer
+
+        System.out.print("Días: ");
+        int Dias = sc.nextInt();
+        sc.nextLine();//Limpiamos buffer
+
+        System.out.print("Disponibilidad: ");
+        int Disponibilidad = sc.nextInt();
+        sc.nextLine();//Limpiamos buffer
+
+        System.out.print("ID categoría: ");
+        int ID_categoria = sc.nextInt();
+        sc.nextLine();//Limpiamos buffer
+
+        //Creamos un objeto Destino con los datos introducidos
+        Destino d = new Destino(Nombre, Pais, Ciudad, Descripcion, Precio_base, Dias, Disponibilidad, ID_categoria);
+
+        try {
+            controlador.registrarDestino(d);
+            System.out.println("Destino registrado correctamente.");
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+            e.printStackTrace();//Sirve mostrar el error completo en la consola
+        }
+    }
+    
+    public void modificarDestino() {
+
+        System.out.print("Introduce el ID del destino a modificar: ");
+        int ID_destino = sc.nextInt();
+        sc.nextLine();
+
+        System.out.print("Nuevo nombre: ");
+        String Nombre = sc.nextLine();
+
+        System.out.print("Nuevo país: ");
+        String Pais = sc.nextLine();
+
+        System.out.print("Nueva ciudad: ");
+        String Ciudad = sc.nextLine();
+
+        System.out.print("Nueva descripción: ");
+        String Descripcion = sc.nextLine();
+
+        System.out.print("Nuevo precio base: ");
+        double Precio_base = sc.nextDouble();
+        sc.nextLine();
+
+        System.out.print("Nuevos días de duración: ");
+        int Dias = sc.nextInt();
+        sc.nextLine();
+
+        System.out.print("Nueva disponibilidad: ");
+        int Disponibilidad = sc.nextInt();
+        sc.nextLine();
+
+        System.out.print("Nuevo ID de categoría: ");
+        int ID_categoria = sc.nextInt();
+        sc.nextLine();
+
+        //Creamos el destino con todos los datos nuevos
+        Destino d = new Destino(ID_destino, Nombre, Pais, Ciudad, Descripcion, Precio_base, Dias, Disponibilidad, ID_categoria);
+
+
+        try {
+            controlador.modificarDestino(d);
+            System.out.println("Destino modificado correctamente.");
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+            e.printStackTrace();//Sirve mostrar el error completo en la consola
+        }
+    }
+    
+    public void eliminarDestino() {
+
+        System.out.print("Introduce el ID del destino a eliminar: ");
+        int ID_destino = sc.nextInt();
+        sc.nextLine();//Limpiamos buffer
+
+        try {
+            controlador.eliminarDestino(ID_destino);
+            System.out.println("Destino eliminado correctamente.");
+        } catch (Exception e) {
+            System.out.println("Error al eliminar destino: " + e.getMessage());
+            e.printStackTrace();//Sirve mostrar el error completo en la consola
+        }
+    }
+    
+     
+    public void listarPorCategoria() {
+
+        System.out.print("Introduce el ID de la categoría: ");
+        int ID_categoria = sc.nextInt();
+        sc.nextLine();//Limpiamos buffer
+        
+        System.out.println("---LISTA DE DESTINOS POR CATEGORÍA---");
+        Iterator<Destino> it = controlador.listarPorCategoria(ID_categoria).iterator(); //Iterator para recorrer la lista filtrada
+
+        while (it.hasNext()) {
+            System.out.println(it.next()); //Imprime cada destino filtrado
+        }
+    }
+    
+//------------------------------------------------------------------------------------------------------------------
+    //Submenu para listar destinos con dos opciones: orden alfabético (compareTo) o orden de inserción (HashMap + Streams)
+    public void listarDestinos() {
+
+        int opcion = -1;
+
+        while (opcion != 0) {
+        	
+        	try {
+
+            System.out.println("---LISTAR DESTINOS---");
+            System.out.println("0. Volver");
+            System.out.println("1. Ordenados alfabéticamente");
+            System.out.println("2. Orden de inserción");
+            System.out.print("Elige una opción: ");
+
+            opcion = sc.nextInt();
+            sc.nextLine();
+
+            switch (opcion) {
+
+                case 0:
+                    System.out.println("Volviendo...");
+                    break;
+
+                case 1:
+                    listarDestinosOrdenados();
+                    break;
+
+                case 2:
+                    listarDestinosInsercion();
+                    break;
+
+                default:
+                    System.out.println("Opción no válida.");
+            }
+        } catch (InputMismatchException e) {//Captura el error si el usuario introduce letras en vez de números
+
+			System.out.println("ERROR: Debes introducir un número.");
+			sc.nextLine(); //Limpiamos buffer
+        }
+    }
+  }
+    //Lista ordenada usando compareTo()
+    private void listarDestinosOrdenados() {
+
+        System.out.println("---DESTINOS ORDENADOS---");
+
+        Iterator<Destino> it = controlador.listarDestinos().iterator();
+
+        while (it.hasNext()) {
+            System.out.println(it.next());//Imprimimos cada destino ordenado alfabéticamente
+        }
+    }
+
+    //Lista sin ordenar usando HashMap + Streams
+    private void listarDestinosInsercion() {
+
+        System.out.println("---DESTINOS POR INSERCIÓN---");
+
+        Map<Integer, Destino> mapaDestinos =
+                controlador.listarDestinosInsercion().stream() //Uso de stream ya que el controlador devuelve una lista, así podemos convertirla a Map con Collectors
+                    .collect(Collectors.toMap(
+                        d -> d.getID_destino(), //Clave = ID_destino
+                        d -> d                  //Valor = Destino
+                    ));
+
+        mapaDestinos.values().forEach(System.out::println);
+    }
+
+    //------------------------------------------------------------------------------------------------------------------
+
+
 
 }
