@@ -1,7 +1,7 @@
 package Vistas;
 
 import java.util.Scanner;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.InputMismatchException;
 import java.util.Map;
 import java.util.Iterator;
@@ -65,6 +65,13 @@ public class ReservaView {
         sc.nextLine(); // limpiar buffer
 
         System.out.println("\n--- REGISTRAR RESERVA ---");
+        LocalDate Fecha_reserva = LocalDate.now();//Obtenemos la fecha actual de reserva automáticamente
+        
+        System.out.print("Fecha salida (yyyy-MM-dd): ");
+        LocalDate Fecha_salida = LocalDate.parse(sc.nextLine().trim());//Pasamos el String a LocalDate para evitar problemas de formato y validación de fechas
+
+        System.out.print("Fecha regreso (yyyy-MM-dd): ");
+        LocalDate Fecha_regreso = LocalDate.parse(sc.nextLine().trim());//Pasamos el String a LocalDate para evitar problemas de formato y validación de fechas    
 
         System.out.print("Número de viajeros: ");
         int Numero_viajeros = sc.nextInt();
@@ -86,7 +93,7 @@ public class ReservaView {
         int ID_empleado = sc.nextInt();
 
         // Crear la reserva
-        Reserva r = new Reserva(new Date(), new Date(), new Date(), Numero_viajeros, Importe_Total, Estado_reserva, ID_cliente, ID_empleado, ID_destino);
+        Reserva r = new Reserva(Fecha_reserva, Fecha_salida, Fecha_regreso, Numero_viajeros, Importe_Total, Estado_reserva, ID_cliente, ID_empleado, ID_destino);
 
 
         try {

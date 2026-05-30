@@ -55,11 +55,11 @@ public class ReservaControlador implements Validar<Reserva> {
             throw new ReservaInvalidoException("Las fechas no pueden ser nulas.");
         }
 
-        if (r.getFecha_reserva().after(r.getFecha_salida())) {
+        if (r.getFecha_reserva().isAfter(r.getFecha_salida())) {
             throw new ReservaInvalidoException("La fecha de reserva no puede ser posterior a la fecha de salida.");
         }
 
-        if (r.getFecha_salida().after(r.getFecha_regreso())) {
+        if (r.getFecha_salida().isAfter(r.getFecha_regreso())) {
             throw new ReservaInvalidoException("La fecha de salida no puede ser posterior a la fecha de regreso.");
         }
     }

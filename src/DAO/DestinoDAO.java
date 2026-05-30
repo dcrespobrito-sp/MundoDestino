@@ -19,8 +19,8 @@ public class DestinoDAO extends AbstractaDAO<Destino> {
         String sql = "INSERT INTO DESTINO (Nombre, Pais, Ciudad, Descripcion, Precio_base, Dias, Disponibilidad, ID_categoria) "
                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
-        try (Connection con = Conexion.getConexion();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = Conexion.getConexion();//Obtenemos la conexión a la base de datos
+             PreparedStatement ps = con.prepareStatement(sql)) {//Preparamos la consulta SQL
 
             ps.setString(1, obj.getNombre());
             ps.setString(2, obj.getPais());
@@ -31,7 +31,7 @@ public class DestinoDAO extends AbstractaDAO<Destino> {
             ps.setInt(7, obj.getDisponibilidad());
             ps.setInt(8, obj.getID_categoria());
 
-            ps.executeUpdate();
+            ps.executeUpdate();//Ejecutamos la consulta para insertar el destino
 
         } catch (SQLException e) {
             System.out.println("Error al insertar destino: " + e.getMessage());
@@ -44,8 +44,8 @@ public class DestinoDAO extends AbstractaDAO<Destino> {
         String sql = "UPDATE DESTINO SET Nombre=?, Pais=?, Ciudad=?, Descripcion=?, Precio_base=?, Dias=?, Disponibilidad=?, ID_categoria=? "
                    + "WHERE ID_destino=?";
 
-        try (Connection con = Conexion.getConexion();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = Conexion.getConexion();//Obtenemos la conexión a la base de datos
+             PreparedStatement ps = con.prepareStatement(sql)) {//Preparamos la consulta SQL
 
             ps.setString(1, obj.getNombre());
             ps.setString(2, obj.getPais());
@@ -69,8 +69,8 @@ public class DestinoDAO extends AbstractaDAO<Destino> {
     public void eliminar(int id) throws SQLException {//Lanza una excepción si el destino no existe en la base de datos{
         String sql = "DELETE FROM DESTINO WHERE ID_destino=?";
 
-        try (Connection con = Conexion.getConexion();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = Conexion.getConexion();//Obtenemos la conexión a la base de datos
+             PreparedStatement ps = con.prepareStatement(sql)) {//Preparamos la consulta SQL
 
             int filas = ps.executeUpdate();//Ejecuta la actualización y devuelve el número de filas afectadas
 
@@ -86,9 +86,9 @@ public class DestinoDAO extends AbstractaDAO<Destino> {
         ArrayList<Destino> lista = new ArrayList<>();
         String sql = "SELECT * FROM DESTINO";
 
-        try (Connection con = Conexion.getConexion();
-             PreparedStatement ps = con.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+        try (Connection con = Conexion.getConexion();//Obtenemos la conexión a la base de datos
+             PreparedStatement ps = con.prepareStatement(sql);//Preparamos la consulta SQL
+             ResultSet rs = ps.executeQuery()) {//Ejecutamos la consulta y obtenemos el resultado
 
             while (rs.next()) {
                 Destino d = new Destino();
@@ -119,11 +119,11 @@ public class DestinoDAO extends AbstractaDAO<Destino> {
         ArrayList<Destino> lista = new ArrayList<>();
         String sql = "SELECT * FROM DESTINO WHERE ID_categoria=? AND Disponibilidad > 0";
 
-        try (Connection con = Conexion.getConexion();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = Conexion.getConexion();//Obtenemos la conexión a la base de datos
+             PreparedStatement ps = con.prepareStatement(sql)) {//Preparamos la consulta SQL
 
             ps.setInt(1, idCategoria);
-            ResultSet rs = ps.executeQuery();
+            ResultSet rs = ps.executeQuery();//Ejecutamos la consulta y obtenemos el resultado
 
             while (rs.next()) {
                 Destino d = new Destino();

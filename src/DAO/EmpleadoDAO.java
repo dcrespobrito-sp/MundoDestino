@@ -19,8 +19,8 @@ public class EmpleadoDAO extends AbstractaDAO<Empleado> {
         String sql = "INSERT INTO EMPLEADO (Nombre_completo, Cargo, Especialidad, Turno, Anios_experiencia) "
                    + "VALUES (?, ?, ?, ?, ?)";
 
-        try (Connection con = Conexion.getConexion();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = Conexion.getConexion();//Obtenemos la conexión a la base de datos
+             PreparedStatement ps = con.prepareStatement(sql)) {//Preparamos la consulta SQL
 
             ps.setString(1, obj.getNombre_completo());
             ps.setString(2, obj.getCargo());
@@ -28,7 +28,7 @@ public class EmpleadoDAO extends AbstractaDAO<Empleado> {
             ps.setString(4, obj.getTurno());
             ps.setInt(5, obj.getAnios_experiencia());
 
-            ps.executeUpdate();
+            ps.executeUpdate();//Ejecutamos la consulta para insertar el empleado
 
         } catch (SQLException e) {
             System.out.println("Error al insertar empleado: " + e.getMessage());
@@ -42,9 +42,9 @@ public class EmpleadoDAO extends AbstractaDAO<Empleado> {
         ArrayList<Empleado> lista = new ArrayList<>();
         String sql = "SELECT * FROM EMPLEADO";
 
-        try (Connection con = Conexion.getConexion();
-             PreparedStatement ps = con.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+        try (Connection con = Conexion.getConexion();//Obtenemos la conexión a la base de datos
+             PreparedStatement ps = con.prepareStatement(sql);//Preparamos la consulta SQL
+             ResultSet rs = ps.executeQuery()) {//Ejecutamos la consulta y obtenemos el resultado
 
             while (rs.next()) {
                 Empleado e = new Empleado();

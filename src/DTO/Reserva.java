@@ -1,13 +1,13 @@
 package DTO;
 
-import java.util.Date;
+import java.time.LocalDate;//Importamos LocalDate para manejar fechas y evitar problemas de formato 
 
 public class Reserva implements Comparable<Reserva> {//Implementa Comparable para ordenar reservas por fecha de salida y ID_reserva
 
     private int ID_reserva;
-    private Date Fecha_reserva;
-    private Date Fecha_salida;
-    private Date Fecha_regreso;
+    private LocalDate Fecha_reserva;
+    private LocalDate Fecha_salida;
+    private LocalDate Fecha_regreso;
     private int Numero_viajeros;
     private double Importe_total;
     private String Estado_reserva;
@@ -22,7 +22,7 @@ public class Reserva implements Comparable<Reserva> {//Implementa Comparable par
     	
     }
     //Constructor SIN ID (para insertar)
-	public Reserva(Date fecha_reserva, Date fecha_salida, Date fecha_regreso, int numero_viajeros, double importe_total, String estado_reserva,
+	public Reserva(LocalDate fecha_reserva, LocalDate fecha_salida, LocalDate fecha_regreso, int numero_viajeros, double importe_total, String estado_reserva,
                    int ID_cliente, int ID_empleado, int ID_destino) {
 
         this.Fecha_reserva = fecha_reserva;
@@ -38,7 +38,7 @@ public class Reserva implements Comparable<Reserva> {//Implementa Comparable par
 	}
    
     //Constructor CON ID (para listar)
-    public Reserva(int ID_reserva, Date fecha_reserva, Date fecha_salida, Date fecha_regreso, int numero_viajeros, double importe_total, String estado_reserva,
+    public Reserva(int ID_reserva, LocalDate fecha_reserva, LocalDate fecha_salida, LocalDate fecha_regreso, int numero_viajeros, double importe_total, String estado_reserva,
                    int ID_cliente, int ID_empleado, int ID_destino) {
 
         this.ID_reserva = ID_reserva;
@@ -65,27 +65,27 @@ public class Reserva implements Comparable<Reserva> {//Implementa Comparable par
 		ID_reserva = iD_reserva;
 	}
 
-	public Date getFecha_reserva() {
+	public LocalDate getFecha_reserva() {
 		return Fecha_reserva;
 	}
 
-	public void setFecha_reserva(Date fecha_reserva) {
+	public void setFecha_reserva(LocalDate fecha_reserva) {
 		Fecha_reserva = fecha_reserva;
 	}
 
-	public Date getFecha_salida() {
+	public LocalDate getFecha_salida() {
 		return Fecha_salida;
 	}
 
-	public void setFecha_salida(Date fecha_salida) {
+	public void setFecha_salida(LocalDate fecha_salida) {
 		Fecha_salida = fecha_salida;
 	}
 
-	public Date getFecha_regreso() {
+	public LocalDate getFecha_regreso() {
 		return Fecha_regreso;
 	}
 
-	public void setFecha_regreso(Date fecha_regreso) {
+	public void setFecha_regreso(LocalDate fecha_regreso) {
 		Fecha_regreso = fecha_regreso;
 	}
 

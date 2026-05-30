@@ -19,8 +19,8 @@ public class ClienteDAO extends AbstractaDAO<Cliente> {
         String sql = "INSERT INTO CLIENTE (Nombre_completo, DNI, Telefono, Correo, Direccion, Pasaporte) "
                    + "VALUES (?, ?, ?, ?, ?, ?)";
 
-        try (Connection con = Conexion.getConexion();//
-             PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = Conexion.getConexion();//Obtenemos la conexión a la base de datos
+             PreparedStatement ps = con.prepareStatement(sql)) {//Preparamos la consulta SQL
 
             ps.setString(1, obj.getNombre_completo());
             ps.setString(2, obj.getDNI());
@@ -29,7 +29,7 @@ public class ClienteDAO extends AbstractaDAO<Cliente> {
             ps.setString(5, obj.getDireccion());
             ps.setString(6, obj.getPasaporte());
 
-            ps.executeUpdate();
+            ps.executeUpdate();//Ejecutamos la consulta para insertar el cliente
 
         } catch (SQLException e) {
             System.out.println("Error al insertar cliente: " + e.getMessage());
@@ -42,9 +42,9 @@ public class ClienteDAO extends AbstractaDAO<Cliente> {
         ArrayList<Cliente> lista = new ArrayList<>();
         String sql = "SELECT * FROM CLIENTE";
 
-        try (Connection con = Conexion.getConexion();
-             PreparedStatement ps = con.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+        try (Connection con = Conexion.getConexion();//Obtenemos la conexión a la base de datos
+             PreparedStatement ps = con.prepareStatement(sql);//Preparamos la consulta SQL
+             ResultSet rs = ps.executeQuery()) {//Ejecutamos la consulta y obtenemos el resultado
 
             while (rs.next()) {
                 Cliente c = new Cliente();

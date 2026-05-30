@@ -20,11 +20,11 @@ public class CategoriaDAO extends AbstractaDAO<Categoria> {
     public void insertar(Categoria obj) {
         String sql = "INSERT INTO CATEGORIA (Categoria) VALUES (?)";
 
-        try (Connection con = Conexion.getConexion();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = Conexion.getConexion();//Obtenemos la conexión a la base de datos
+             PreparedStatement ps = con.prepareStatement(sql)) {//Preparamos la consulta SQL
 
             ps.setString(1, obj.getCategoria());
-            ps.executeUpdate();
+            ps.executeUpdate();//Ejecutamos la consulta para insertar la categoría
 
         } catch (SQLException e) {
             System.out.println("Error al insertar categoría: " + e.getMessage());
@@ -38,9 +38,9 @@ public class CategoriaDAO extends AbstractaDAO<Categoria> {
         ArrayList<Categoria> lista = new ArrayList<>();
         String sql = "SELECT * FROM CATEGORIA";
 
-        try (Connection con = Conexion.getConexion();
-             PreparedStatement ps = con.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+        try (Connection con = Conexion.getConexion();//Obtenemos la conexión a la base de datos
+             PreparedStatement ps = con.prepareStatement(sql);//Preparamos la consulta SQL
+             ResultSet rs = ps.executeQuery()) {////Ejecutamos la consulta y obtenemos el resultado
 
             while (rs.next()) {
                 Categoria c = new Categoria();
