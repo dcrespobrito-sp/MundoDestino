@@ -12,7 +12,7 @@ public class Conexion {
         Connection conex = null;
         try {
             conex = DriverManager.getConnection(URL, USER, PASSWORD);
-            System.out.println("Conexión exitosa a la base de datos MundoDestino");
+
         } catch (SQLException e) {
             System.out.println("Error en la conexión: " + e.getMessage());
         }

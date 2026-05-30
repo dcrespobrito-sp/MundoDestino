@@ -1,5 +1,6 @@
 package Controlador;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -49,21 +50,57 @@ public class DestinoControlador implements Validar<Destino> {
     }
 
 
-    public ArrayList<Destino> listarPorCategoria(int ID_categoria) {//Método para listar destinos filtrados por categoría
-        ArrayList<Destino> lista = dao.listarPorCategoria(ID_categoria); //Obtenemos la lista filtrada del DAO
+    public ArrayList<Destino> listarPorCategoria(int ID_categoria) throws DestinoInvalidoException {
 
-        Collections.sort(lista); //Ordenamos usando compareTo()
+        //ID negativo o 0
+        if (ID_categoria <= 0) {
+            throw new DestinoInvalidoException(
+                "El ID de categoría debe ser mayor que 0."
+            );
+        }
 
-        return lista; //Devolvemos la lista ordenada
+        ArrayList<Destino> lista = dao.listarPorCategoria(ID_categoria);
+
+        //Si no hay destinos para esa categoría, lanzamos una excepción
+        if (lista.isEmpty()) {
+            throw new DestinoInvalidoException("No existen destinos disponibles para la categoría con ID: "+ ID_categoria);
+        }
+
+        Collections.sort(lista);
+
+        return lista;
     }
     
-    public void modificarDestino(Destino d) throws DestinoInvalidoException {
+    public void modificarDestino(Destino d)throws DestinoInvalidoException {
+    	
+    	//Si ID negativo o 0
+        if (d.getID_destino() <= 0) {
+            throw new DestinoInvalidoException("El ID del destino debe ser mayor que 0.");
+        }
         validar(d);
-        dao.actualizar(d);
+        try {
+
+            dao.actualizar(d);
+
+        } catch (SQLException e) {
+
+            throw new DestinoInvalidoException("No existe ningún destino con ID: "+ d.getID_destino());
+        }
     }
     
-    public void eliminarDestino(int ID_destino) {
-        dao.eliminar(ID_destino);
+    public void eliminarDestino(int ID_destino) throws DestinoInvalidoException {
+    	
+    	//Si ID negativo o 0
+        if (ID_destino <= 0) {
+        	throw new DestinoInvalidoException("El ID del destino debe ser mayor que 0.");
+        }
+        try {
+
+            dao.eliminar(ID_destino);
+
+        } catch (SQLException e) {
+            throw new DestinoInvalidoException("No existe ningún destino con ID: "+ ID_destino);
+        }
     }
 
     

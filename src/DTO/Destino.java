@@ -1,7 +1,5 @@
 package DTO;
 
-import java.util.ArrayList;
-
 public class Destino implements Comparable<Destino> {//Implementa Comparable para ordenar destinos por nombre y ID_destino
 
     private int ID_destino;
@@ -15,11 +13,9 @@ public class Destino implements Comparable<Destino> {//Implementa Comparable par
     
     private int ID_categoria;//ID de la categoría a la que pertenece el destino ya que un destino solo puede pertenecer a una categoría
 
-    private ArrayList<Reserva> reservas;//Reservas de un destino
-
     //Constructor vacío para crear destinos nuevos
     public Destino() {
-        this.reservas = new ArrayList<>();
+
     }
     //Constructor SIN ID (para insertar) ya que ID_destino es autoincrement en la base de datos
     public Destino(String Nombre, String Pais, String Ciudad, String Descripcion,double Precio_base, int Dias, int Disponibilidad, int ID_categoria) {
@@ -33,7 +29,6 @@ public class Destino implements Comparable<Destino> {//Implementa Comparable par
         this.Disponibilidad = Disponibilidad;
         this.ID_categoria = ID_categoria;
 
-        this.reservas = new ArrayList<>();
     }
     
     //Constructor CON ID (para listar, modificar y eliminar)
@@ -48,7 +43,6 @@ public class Destino implements Comparable<Destino> {//Implementa Comparable par
         this.Dias = dias;
         this.Disponibilidad = disponibilidad;
         this.ID_categoria = ID_categoria;
-        this.reservas = new ArrayList<>();
     }
 
 
@@ -123,15 +117,6 @@ public class Destino implements Comparable<Destino> {//Implementa Comparable par
 
 	public void setID_categoria(int iD_categoria) {
 		ID_categoria = iD_categoria;
-	}
-
-
-	public ArrayList<Reserva> getReservas() {
-		return reservas;
-	}
-
-	public void setReservas(ArrayList<Reserva> reservas) {
-		this.reservas = reservas;
 	}
 	
 	@Override

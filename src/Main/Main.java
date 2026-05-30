@@ -15,7 +15,7 @@ public class Main {
 
 	public static void main(String[] args) {
 
-		Conexion.getConexion();
+		Conexion.getConexion();//Inicializamos la conexión a la base de datos para comprobar que funciona correctamente
 
 		Scanner sc = new Scanner(System.in);
 

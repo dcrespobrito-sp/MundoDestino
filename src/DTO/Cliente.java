@@ -1,7 +1,5 @@
 package DTO;
 
-import java.util.ArrayList;
-
 public class Cliente  implements Comparable<Cliente> {//Implementa Comparable para ordenar clientes por nombre y ID_cliente
 
     private int ID_cliente;
@@ -12,11 +10,10 @@ public class Cliente  implements Comparable<Cliente> {//Implementa Comparable pa
     private String Direccion;
     private String Pasaporte;
 
-    private ArrayList<Reserva> reservas;
 
     // Constructor vacío
     public Cliente() {
-        this.reservas = new ArrayList<>();
+
     }
 
     //Constructor SIN ID (para insertar) ya que ID_destino es autoincrement en la base de datos
@@ -27,7 +24,7 @@ public class Cliente  implements Comparable<Cliente> {//Implementa Comparable pa
         this.Correo = correo;
         this.Direccion = direccion;
         this.Pasaporte = pasaporte;
-        this.reservas = new ArrayList<>();
+
     }
 
     //Constructor CON ID (para listar)
@@ -39,7 +36,7 @@ public class Cliente  implements Comparable<Cliente> {//Implementa Comparable pa
         this.Correo = correo;
         this.Direccion = direccion;
         this.Pasaporte = pasaporte;
-        this.reservas = new ArrayList<>();
+
     }
     
     //Getters y Setters
@@ -100,13 +97,6 @@ public class Cliente  implements Comparable<Cliente> {//Implementa Comparable pa
 		Pasaporte = pasaporte;
 	}
 
-	public ArrayList<Reserva> getReservas() {
-		return reservas;
-	}
-
-	public void setReservas(ArrayList<Reserva> reservas) {
-		this.reservas = reservas;
-	}
 	@Override
     public int compareTo(Cliente otro) {//Método compareTo para ordenar
 

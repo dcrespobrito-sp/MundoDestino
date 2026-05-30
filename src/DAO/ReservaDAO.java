@@ -37,7 +37,6 @@ public class ReservaDAO extends AbstractaDAO<Reserva> {
 
         } catch (SQLException e) {
             System.out.println("Error al insertar reserva: " + e.getMessage());
-            e.printStackTrace();//Sirve para imprimir la traza completa del error
         }
     }
 
@@ -71,7 +70,6 @@ public class ReservaDAO extends AbstractaDAO<Reserva> {
 
         } catch (SQLException e) {
             System.out.println("Error al listar reservas: " + e.getMessage());
-            e.printStackTrace();//Sirve para imprimir la traza completa del error
         }
 
         return lista;
@@ -108,7 +106,6 @@ public class ReservaDAO extends AbstractaDAO<Reserva> {
 
         } catch (SQLException e) {
             System.out.println("Error al obtener historial: " + e.getMessage());
-            e.printStackTrace();//Sirve para imprimir la traza completa del error
         }
 
         return lista;

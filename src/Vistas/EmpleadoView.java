@@ -11,11 +11,12 @@ import DTO.Empleado;
 
 public class EmpleadoView {
 
-    int opcion=-1;
     Scanner sc = new Scanner(System.in);
     EmpleadoControlador controlador = new EmpleadoControlador();
 
     public void menuEmpleado() {
+    	
+   	 int opcion = -1;//Inicializamos a -1 para que entre al menú, ya que si lo inicializamos a 0 no entraría nunca al menú
 
         while (opcion != 0) {
         	
@@ -80,7 +81,6 @@ public class EmpleadoView {
             System.out.println("Empleado registrado correctamente.");
         } catch (Exception ex) {
             System.out.println("Error: " + ex.getMessage());
-            ex.printStackTrace();//Sirve para imprimir el error completo en la consola
         }
     }
 

@@ -8,16 +8,19 @@ import java.util.stream.Collectors;
 
 import Controlador.DestinoControlador;
 import DTO.Destino;
+import Excepciones.DestinoInvalidoException;
 
 public class DestinoView {
 
-    int opcion=-1;
+
     Scanner sc = new Scanner(System.in);
     DestinoControlador controlador = new DestinoControlador();
 
     public void menuDestino() {
+    	 int opcion = -1;//Inicializamos a -1 para que entre al menú, ya que si lo inicializamos a 0 no entraría nunca al menú
 
         while (opcion != 0) {
+           
         	
           try {
         	  
@@ -107,7 +110,6 @@ public class DestinoView {
             System.out.println("Destino registrado correctamente.");
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
-            e.printStackTrace();//Sirve mostrar el error completo en la consola
         }
     }
     
@@ -154,7 +156,7 @@ public class DestinoView {
             System.out.println("Destino modificado correctamente.");
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
-            e.printStackTrace();//Sirve mostrar el error completo en la consola
+
         }
     }
     
@@ -169,22 +171,31 @@ public class DestinoView {
             System.out.println("Destino eliminado correctamente.");
         } catch (Exception e) {
             System.out.println("Error al eliminar destino: " + e.getMessage());
-            e.printStackTrace();//Sirve mostrar el error completo en la consola
+
         }
     }
     
      
     public void listarPorCategoria() {
 
-        System.out.print("Introduce el ID de la categoría: ");
-        int ID_categoria = sc.nextInt();
-        sc.nextLine();//Limpiamos buffer
-        
-        System.out.println("---LISTA DE DESTINOS POR CATEGORÍA---");
-        Iterator<Destino> it = controlador.listarPorCategoria(ID_categoria).iterator(); //Iterator para recorrer la lista filtrada
+        try {
 
-        while (it.hasNext()) {
-            System.out.println(it.next()); //Imprime cada destino filtrado
+            System.out.print("Introduce el ID de la categoría: ");
+            int ID_categoria = sc.nextInt();
+
+            System.out.println("---LISTA DE DESTINOS POR CATEGORÍA---");
+            Iterator<Destino> it = controlador.listarPorCategoria(ID_categoria).iterator();
+
+            while (it.hasNext()) {
+                System.out.println(it.next());
+            }
+
+        } catch (DestinoInvalidoException e) {
+            System.out.println("ERROR: " + e.getMessage());
+
+        } catch (InputMismatchException e) {//Captura el error si el usuario introduce letras en vez de números
+            System.out.println("ERROR: Debes introducir un número.");
+            sc.nextLine();
         }
     }
     

@@ -53,7 +53,6 @@ public class Reserva implements Comparable<Reserva> {//Implementa Comparable par
         this.ID_empleado = ID_empleado;
         this.ID_destino = ID_destino;
 
-
     }
     
     //Getters y setters

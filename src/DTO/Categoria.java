@@ -1,30 +1,27 @@
 package DTO;
 
-import java.util.ArrayList;
-
 public class Categoria implements Comparable<Categoria> {//Implementa Comparable para ordenar categorías por nombre y ID_categoria
 
     private int ID_categoria;
     private String Categoria;
     
-    private ArrayList<Destino> destinos;//Destinos de una categoría
 
     //Constructor vacío para crear categorías nuevas.
     public Categoria() {
-        this.destinos = new ArrayList<>();
+
     }
     
     //Constructor sin ID (insertar)
 	public Categoria(String Categoria) {
 		this.Categoria = Categoria;
-		this.destinos = new ArrayList<>();
+
 	}
 	
     //Constructor con ID (listar)
     public Categoria(int ID_categoria, String Categoria) {
         this.ID_categoria = ID_categoria;
         this.Categoria = Categoria;
-        this.destinos = new ArrayList<>();
+
     }
     
     //Getters y setters
@@ -44,13 +41,6 @@ public class Categoria implements Comparable<Categoria> {//Implementa Comparable
 		this.Categoria = categoria;
 	}
 
-	public ArrayList<Destino> getDestinos() {
-		return destinos;
-	}
-
-	public void setDestinos(ArrayList<Destino> destinos) {
-		this.destinos = destinos;
-	}
 	
 	@Override
     public int compareTo(Categoria otra) {//Método compareTo para ordenar

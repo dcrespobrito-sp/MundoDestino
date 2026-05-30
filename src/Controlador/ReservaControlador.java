@@ -1,5 +1,4 @@
 package Controlador;
-
 import DAO.ReservaDAO;
 import DTO.Reserva;
 import Excepciones.ReservaInvalidoException;
@@ -71,13 +70,25 @@ public class ReservaControlador implements Validar<Reserva> {
     }
   
 
-    public ArrayList<Reserva> historialCliente(int ID_cliente) {
-        ArrayList<Reserva> lista = dao.historialPorCliente(ID_cliente); //Obtenemos la lista filtrada del DAO
+    public ArrayList<Reserva> historialCliente(int ID_cliente) throws ReservaInvalidoException {
 
-        Collections.sort(lista); //Ordenamos usando compareTo()
+    	    // Validar ID negativo o 0
+    	    if (ID_cliente <= 0) {
+    	        throw new ReservaInvalidoException("El ID del cliente debe ser mayor que 0.");
+    	    }
 
-        return lista; //Devolvemos la lista ordenada
-    }
+    	    ArrayList<Reserva> lista = dao.historialPorCliente(ID_cliente);
+
+    	    // Si no hay reservas
+    	    if (lista.isEmpty()) {
+    	        throw new ReservaInvalidoException("No existen reservas asociadas al cliente con ID: " + ID_cliente);
+    	    }
+
+    	    Collections.sort(lista);
+
+    	    return lista;
+    	}
+    
     
     
     public ArrayList<Reserva> listarReservas() {

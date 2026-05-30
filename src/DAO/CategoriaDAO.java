@@ -12,7 +12,7 @@ import DTO.Categoria;
 public class CategoriaDAO extends AbstractaDAO<Categoria> {
 
 	public CategoriaDAO() {
-		// TODO Auto-generated constructor stub
+		
 	}
 	
 	//Método INSERT para insertar una categoría a la base de datos MundoDestino
@@ -28,7 +28,7 @@ public class CategoriaDAO extends AbstractaDAO<Categoria> {
 
         } catch (SQLException e) {
             System.out.println("Error al insertar categoría: " + e.getMessage());
-            e.printStackTrace();//Sirve para imprimir el error completo en la consola
+
         }
     }
 
@@ -51,7 +51,7 @@ public class CategoriaDAO extends AbstractaDAO<Categoria> {
 
         } catch (SQLException e) {
             System.out.println("Error al listar categorías: " + e.getMessage());
-            e.printStackTrace();//Sirve para imprimir el error completo en la consola
+
         }
 
         return lista;

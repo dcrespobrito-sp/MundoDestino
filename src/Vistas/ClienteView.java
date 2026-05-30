@@ -11,13 +11,14 @@ import DTO.Cliente;
 
 public class ClienteView {
 	
-	int opcion=-1;
 	
     Scanner sc = new Scanner(System.in);
     ClienteControlador controlador = new ClienteControlador();
 
     public void menuCliente() {
-
+    	
+   	 int opcion = -1;//Inicializamos a -1 para que entre al menú, ya que si lo inicializamos a 0 no entraría nunca al menú
+   	 
         while (opcion != 0) {
         	
           try {
@@ -81,7 +82,6 @@ public class ClienteView {
             System.out.println("Cliente registrado correctamente.");
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
-            e.printStackTrace();//Sirve para imprimir la traza completa del error en la consola
         }
     }
 

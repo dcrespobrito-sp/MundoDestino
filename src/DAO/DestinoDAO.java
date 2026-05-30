@@ -35,12 +35,12 @@ public class DestinoDAO extends AbstractaDAO<Destino> {
 
         } catch (SQLException e) {
             System.out.println("Error al insertar destino: " + e.getMessage());
-            e.printStackTrace();//Sirve para imprimir el error completo en la consola
+
         }
     }
 
     //Método UPDATE para actualizar un destino a la base de datos MundoDestino
-    public void actualizar(Destino obj) {
+    public void actualizar(Destino obj) throws SQLException {//Lanza una excepción si el destino no existe en la base de datos
         String sql = "UPDATE DESTINO SET Nombre=?, Pais=?, Ciudad=?, Descripcion=?, Precio_base=?, Dias=?, Disponibilidad=?, ID_categoria=? "
                    + "WHERE ID_destino=?";
 
@@ -57,27 +57,26 @@ public class DestinoDAO extends AbstractaDAO<Destino> {
             ps.setInt(8, obj.getID_categoria());
             ps.setInt(9, obj.getID_destino());
 
-            ps.executeUpdate();
+            int filas = ps.executeUpdate();//Ejecuta la actualización y devuelve el número de filas afectadas
 
-        } catch (SQLException e) {
-            System.out.println("Error al actualizar destino: " + e.getMessage());
-            e.printStackTrace();//Sirve para imprimir el error completo en la consola
+            if (filas == 0) {//Si no se ha actualizado ninguna fila, significa que el destino no existe en la base de datos
+                throw new SQLException("No existe el destino.");
+            }
         }
     }
 
 	//Método DELETE para eliminar un destino a la base de datos MundoDestino
-    public void eliminar(int id) {
+    public void eliminar(int id) throws SQLException {//Lanza una excepción si el destino no existe en la base de datos{
         String sql = "DELETE FROM DESTINO WHERE ID_destino=?";
 
         try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
 
-            ps.setInt(1, id);
-            ps.executeUpdate();
+            int filas = ps.executeUpdate();//Ejecuta la actualización y devuelve el número de filas afectadas
 
-        } catch (SQLException e) {
-            System.out.println("Error al eliminar destino: " + e.getMessage());
-            e.printStackTrace();//Sirve para imprimir el error completo en la consola
+            if (filas == 0) {//Si no se ha actualizado ninguna fila, significa que el destino no existe en la base de datos
+                throw new SQLException("No existe el destino.");
+            }
         }
     }
 
@@ -108,7 +107,7 @@ public class DestinoDAO extends AbstractaDAO<Destino> {
 
         } catch (SQLException e) {
             System.out.println("Error al listar destinos: " + e.getMessage());
-            e.printStackTrace();//Sirve para imprimir el error completo en la consola
+
         }
 
         return lista;
@@ -141,7 +140,7 @@ public class DestinoDAO extends AbstractaDAO<Destino> {
 
         } catch (SQLException e) {
             System.out.println("Error al listar destinos por categoría: " + e.getMessage());
-            e.printStackTrace();//Sirve para imprimir el error completo en la consola
+
         }
 
         return lista;

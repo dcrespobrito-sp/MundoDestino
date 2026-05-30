@@ -9,13 +9,15 @@ import Controlador.ReservaControlador;
 import DTO.Reserva;
 import Excepciones.ReservaInvalidoException;
 import java.util.stream.Collectors;
+
 public class ReservaView {
 
-    int opcion=-1;
     Scanner sc = new Scanner(System.in);
     ReservaControlador controlador = new ReservaControlador();
 
     public void menuReserva() {
+    	
+   	 int opcion = -1;//Inicializamos a -1 para que entre al menú, ya que si lo inicializamos a 0 no entraría nunca al menú
 
         while (opcion != 0) {
         	
@@ -92,20 +94,30 @@ public class ReservaView {
             System.out.println("Reserva registrada correctamente.");
         } catch (ReservaInvalidoException ex) {
             System.out.println("Error: " + ex.getMessage());
-            ex.printStackTrace();//Sirve para imprimir la traza completa del error
         }
     }
     
 
     private void historialCliente() {
-        System.out.print("Introduce el ID del cliente: ");
-        int ID_cliente = sc.nextInt();
 
-        System.out.println("---HISTORIAL DE RESERVAS DEL CLIENTE---");
-        Iterator<Reserva> it = controlador.historialCliente(ID_cliente).iterator(); //Iterator para recorrer la lista filtrada
+        try {
 
-        while (it.hasNext()) {
-            System.out.println(it.next()); //Imprime cada reserva del historial
+            System.out.print("Introduce el ID del cliente: ");
+            int ID_cliente = sc.nextInt();
+
+            System.out.println("---HISTORIAL DE RESERVAS DEL CLIENTE---");
+            Iterator<Reserva> it = controlador.historialCliente(ID_cliente).iterator();
+
+            while (it.hasNext()) {
+                System.out.println(it.next());
+            }
+
+        } catch (ReservaInvalidoException e) {//Captura el error si el ID_cliente no es válido
+            System.out.println("ERROR: " + e.getMessage());
+
+        } catch (InputMismatchException e) {//Captura el error si el usuario introduce letras en vez de números
+            System.out.println("ERROR: Debes introducir un número.");
+            sc.nextLine();
         }
     }
     

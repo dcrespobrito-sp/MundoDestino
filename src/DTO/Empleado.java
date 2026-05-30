@@ -1,7 +1,5 @@
 package DTO;
 
-import java.util.ArrayList;
-
 public class Empleado implements Comparable<Empleado> {//Implementa Comparable para ordenar empleados por nombre y ID_empleado
 
     private int ID_empleado;
@@ -11,11 +9,9 @@ public class Empleado implements Comparable<Empleado> {//Implementa Comparable p
     private String Turno;
     private int Anios_experiencia;
 
-    private ArrayList<Reserva> reservas;//Reservas gestionadas por un empleado
-
     //Constructor vacío para crear empleados nuevos
     public Empleado() {
-        this.reservas = new ArrayList<>();
+
     }
     //Constructor SIN ID (para insertar) ya que ID_destino es autoincrement en la base de datos
     public Empleado(String nombre_completo, String cargo,String especialidad, String turno, int anios_experiencia) {
@@ -26,7 +22,7 @@ public class Empleado implements Comparable<Empleado> {//Implementa Comparable p
         this.Turno = turno;
         this.Anios_experiencia = anios_experiencia;
 
-        this.reservas = new ArrayList<>();
+
     }
     
     //Constructor CON ID (para listar)
@@ -39,7 +35,6 @@ public class Empleado implements Comparable<Empleado> {//Implementa Comparable p
         this.Turno = turno;
         this.Anios_experiencia = anios_experiencia;
 
-        this.reservas = new ArrayList<>();
     }
     //Getter y setters
 
@@ -89,14 +84,6 @@ public class Empleado implements Comparable<Empleado> {//Implementa Comparable p
 
 	public void setAnios_experiencia(int anios_experiencia) {
 		Anios_experiencia = anios_experiencia;
-	}
-
-	public ArrayList<Reserva> getReservas() {
-		return reservas;
-	}
-
-	public void setReservas(ArrayList<Reserva> reservas) {
-		this.reservas = reservas;
 	}
 	
 	@Override

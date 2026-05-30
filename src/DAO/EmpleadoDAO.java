@@ -32,7 +32,7 @@ public class EmpleadoDAO extends AbstractaDAO<Empleado> {
 
         } catch (SQLException e) {
             System.out.println("Error al insertar empleado: " + e.getMessage());
-            e.printStackTrace();//Sirve para imprimir el error completo en la consola
+
         }
     }
 
@@ -60,7 +60,7 @@ public class EmpleadoDAO extends AbstractaDAO<Empleado> {
 
         } catch (SQLException e) {
             System.out.println("Error al listar empleados: " + e.getMessage());
-            e.printStackTrace();//Sirve para imprimir el error completo en la consola
+
         }
 
         return lista;

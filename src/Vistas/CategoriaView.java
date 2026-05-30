@@ -11,12 +11,12 @@ import DTO.Categoria;
 import Excepciones.CategoriaInvalidoException;
 
 public class CategoriaView {
-	int opcion=-1;
+
     Scanner sc = new Scanner(System.in);
     CategoriaControlador controlador = new CategoriaControlador();
 
     public void menuCategoria() {
-
+   	 int opcion = -1;//Inicializamos a -1 para que entre al menú, ya que si lo inicializamos a 0 no entraría nunca al menú
     	
       while (opcion != 0) {
         	
@@ -69,7 +69,6 @@ public class CategoriaView {
 
         } catch (CategoriaInvalidoException e) {
             System.out.println("Error: " + e.getMessage());
-            e.printStackTrace();//Sirve para imprimir el error completo en la consola
         }
     }
 

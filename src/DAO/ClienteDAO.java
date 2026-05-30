@@ -33,7 +33,6 @@ public class ClienteDAO extends AbstractaDAO<Cliente> {
 
         } catch (SQLException e) {
             System.out.println("Error al insertar cliente: " + e.getMessage());
-            e.printStackTrace();//Sirve para imprimir el error completo en la consola
         }
     }
 
@@ -62,7 +61,6 @@ public class ClienteDAO extends AbstractaDAO<Cliente> {
 
         } catch (SQLException e) {
             System.out.println("Error al listar clientes: " + e.getMessage());
-            e.printStackTrace();//Sirve para imprimir el error completo en la consola
         }
 
         return lista;
