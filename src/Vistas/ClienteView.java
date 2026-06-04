@@ -2,12 +2,11 @@ package Vistas;
 
 import java.util.InputMismatchException;
 import java.util.Iterator;
-import java.util.Map;
+import java.util.LinkedHashMap;
 import java.util.Scanner;
-import java.util.stream.Collectors;
-
 import Controlador.ClienteControlador;
 import DTO.Cliente;
+import Excepciones.ClienteInvalidoException;
 
 public class ClienteView {
 	
@@ -29,21 +28,17 @@ public class ClienteView {
             System.out.println("1. Registrar cliente");
             System.out.println("2. Listar todos los clientes");
             System.out.print("Elige una opción: ");
-
             opcion = sc.nextInt();
+            System.out.println();
+
+
 
             switch (opcion) {
-            	case 0:
-            		System.out.println("Volviendo al menú principal...");
-            		break;
-                case 1:
-                	registrarCliente();
-                	break;
-                case 2:
-                	listarClientes();
-                	break;
-                default:
-                	System.out.println("Opción no válida.");
+            
+        	case 0 -> System.out.println("Volviendo al menú principal...");
+            case 1 -> registrarCliente();
+            case 2 -> listarClientes();
+            default -> System.out.println("Opción no válida.");
                 	
             }
           } catch (InputMismatchException e) {//Captura el error si el usuario introduce letras en vez de números
@@ -80,7 +75,7 @@ public class ClienteView {
         try {
             controlador.registrarCliente(c);
             System.out.println("Cliente registrado correctamente.");
-        } catch (Exception e) {
+        } catch (ClienteInvalidoException e) {
             System.out.println("Error: " + e.getMessage());
         }
     }
@@ -100,26 +95,17 @@ public class ClienteView {
             System.out.println("1. Ordenados alfabéticamente");
             System.out.println("2. Orden de inserción");
             System.out.print("Elige una opción: ");
-
             opcion = sc.nextInt();
             sc.nextLine(); //Limpiamos buffer
+            System.out.println();
 
             switch (opcion) {
 
-                case 0:
-                    System.out.println("Volviendo...");
-                    break;
-
-                case 1:
-                    listarClientesOrdenados(); //Lista ordenada usando compareTo()
-                    break;
-
-                case 2:
-                    listarClientesInsercion(); //Lista sin ordenar usando HashMap + Streams
-                    break;
-
-                default:
-                    System.out.println("Opción no válida.");
+            case 0 -> System.out.println("Volviendo...");
+            case 1 -> listarClientesOrdenados(); //Lista ordenada usando compareTo()
+            case 2 -> listarClientesInsercion(); //Lista sin ordenar usando HashMap + Streams
+            default -> System.out.println("Opción no válida.");
+            
             }
         } catch (InputMismatchException e) {//Captura el error si el usuario introduce letras en vez de números
 
@@ -142,21 +128,20 @@ public class ClienteView {
         }
     }
 
-    //Método para listar clientes en orden de inserción usando un HashMap + Streams
+    //Método para listar clientes en orden de inserción
     private void listarClientesInsercion() {
 
         System.out.println("---CLIENTES POR INSERCIÓN---");
 
-        //Convertimos la lista del controlador en un Map usando Streams
-        Map<Integer, Cliente> mapaClientes =
-                controlador.listarClientesInsercion().stream()////Uso de stream ya que el controlador devuelve una lista, así podemos convertirla a Map con Collectors
-                    .collect(Collectors.toMap(
-                        c -> c.getID_cliente(), //Clave = ID_cliente
-                        c -> c                  //Valor = objeto Cliente
-                    ));
+        LinkedHashMap<Integer, Cliente> mapaClientes = new LinkedHashMap<>();//LinkedHashMap para mantener el orden de inserción
 
-        //Imprimimos usando lambdas
+        controlador.listarClientesInsercion().stream()//Paso la lista de clientes a un stream para poder usar forEach
+                   .forEach(c -> mapaClientes.put(c.getID_cliente(), c));//Con el forEach obtengo de cada cliente su ID_cliente y su objeto cliente completo para guardarlo en el LinkedHashMap
+
+        //Uso de expresiones lambda para imprimir cada cliente en orden de inserción
         mapaClientes.values().forEach(System.out::println);
+
+
     }
 }
 //------------------------------------------------------------------------------------------------------------------

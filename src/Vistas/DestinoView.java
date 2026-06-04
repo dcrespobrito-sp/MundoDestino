@@ -2,10 +2,8 @@ package Vistas;
 
 import java.util.InputMismatchException;
 import java.util.Iterator;
-import java.util.Map;
+import java.util.LinkedHashMap;
 import java.util.Scanner;
-import java.util.stream.Collectors;
-
 import Controlador.DestinoControlador;
 import DTO.Destino;
 import Excepciones.DestinoInvalidoException;
@@ -33,34 +31,20 @@ public class DestinoView {
             System.out.println("4. Modificar destino");
             System.out.println("5. Eliminar destino");
             System.out.print("Elige una opción: ");
-
             opcion = sc.nextInt();
+            System.out.println();
             
 
             switch (opcion) {
-                case 0:
-                    System.out.println("Volviendo al menú principal...");
-                    break;
-
-                case 1:
-                    registrarDestino();
-                    break;
-
-                case 2:
-                    listarDestinos();
-                    break;
-                case 3:
-                	listarPorCategoria();
-                	break;
-                case 4:
-					modificarDestino();
-					break;
-                case 5:
-                	eliminarDestino();
-                	break;
-
-                default:
-                    System.out.println("Opción no válida.");
+            
+            case 0 -> System.out.println("Volviendo al menú principal...");
+            case 1 -> registrarDestino();
+            case 2 -> listarDestinos();
+            case 3 -> listarPorCategoria();
+            case 4 -> modificarDestino();
+            case 5 -> eliminarDestino();
+            default -> System.out.println("Opción no válida.");
+            
             }
           } catch (InputMismatchException e) {//Captura el error si el usuario introduce letras en vez de números
 
@@ -108,7 +92,7 @@ public class DestinoView {
         try {
             controlador.registrarDestino(d);
             System.out.println("Destino registrado correctamente.");
-        } catch (Exception e) {
+        } catch (DestinoInvalidoException e) {
             System.out.println("Error: " + e.getMessage());
         }
     }
@@ -154,7 +138,7 @@ public class DestinoView {
         try {
             controlador.modificarDestino(d);
             System.out.println("Destino modificado correctamente.");
-        } catch (Exception e) {
+        } catch (DestinoInvalidoException e) {
             System.out.println("Error: " + e.getMessage());
 
         }
@@ -169,7 +153,7 @@ public class DestinoView {
         try {
             controlador.eliminarDestino(ID_destino);
             System.out.println("Destino eliminado correctamente.");
-        } catch (Exception e) {
+        } catch (DestinoInvalidoException e) {
             System.out.println("Error al eliminar destino: " + e.getMessage());
 
         }
@@ -214,26 +198,17 @@ public class DestinoView {
             System.out.println("1. Ordenados alfabéticamente");
             System.out.println("2. Orden de inserción");
             System.out.print("Elige una opción: ");
-
             opcion = sc.nextInt();
-            sc.nextLine();
+            sc.nextLine(); //Limpiamos buffer
+            System.out.println();
 
             switch (opcion) {
 
-                case 0:
-                    System.out.println("Volviendo...");
-                    break;
-
-                case 1:
-                    listarDestinosOrdenados();
-                    break;
-
-                case 2:
-                    listarDestinosInsercion();
-                    break;
-
-                default:
-                    System.out.println("Opción no válida.");
+            case 0 -> System.out.println("Volviendo...");
+            case 1 -> listarDestinosOrdenados();
+            case 2 -> listarDestinosInsercion();
+            default -> System.out.println("Opción no válida.");
+            
             }
         } catch (InputMismatchException e) {//Captura el error si el usuario introduce letras en vez de números
 
@@ -254,19 +229,19 @@ public class DestinoView {
         }
     }
 
-    //Lista sin ordenar usando HashMap + Streams
+    //Método para listar destinos en orden de inserción.
     private void listarDestinosInsercion() {
 
         System.out.println("---DESTINOS POR INSERCIÓN---");
 
-        Map<Integer, Destino> mapaDestinos =
-                controlador.listarDestinosInsercion().stream() //Uso de stream ya que el controlador devuelve una lista, así podemos convertirla a Map con Collectors
-                    .collect(Collectors.toMap(
-                        d -> d.getID_destino(), //Clave = ID_destino
-                        d -> d                  //Valor = Destino
-                    ));
 
-        mapaDestinos.values().forEach(System.out::println);
+        LinkedHashMap<Integer, Destino> mapaClientes = new LinkedHashMap<>();//LinkedHashMap para mantener el orden de inserción
+
+        controlador.listarDestinosInsercion().stream()//Paso la lista de destinos a un stream para poder usar forEach
+                   .forEach(c -> mapaClientes.put(c.getID_destino(), c));//Con el forEach obtengo de cada destino su ID_destino y su objeto destino completo para guardarlo en el LinkedHashMap
+
+        //Uso de expresiones lambda para imprimir cada destino en orden de inserción
+        mapaClientes.values().forEach(System.out::println);
     }
 
     //------------------------------------------------------------------------------------------------------------------

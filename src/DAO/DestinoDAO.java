@@ -71,6 +71,8 @@ public class DestinoDAO extends AbstractaDAO<Destino> {
 
         try (Connection con = Conexion.getConexion();//Obtenemos la conexión a la base de datos
              PreparedStatement ps = con.prepareStatement(sql)) {//Preparamos la consulta SQL
+        	
+        	ps.setInt(1, id);
 
             int filas = ps.executeUpdate();//Ejecuta la actualización y devuelve el número de filas afectadas
 

@@ -3,12 +3,12 @@ package Vistas;
 import java.util.Scanner;
 import java.time.LocalDate;
 import java.util.InputMismatchException;
-import java.util.Map;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import Controlador.ReservaControlador;
 import DTO.Reserva;
 import Excepciones.ReservaInvalidoException;
-import java.util.stream.Collectors;
+
 
 public class ReservaView {
 
@@ -30,28 +30,18 @@ public class ReservaView {
             System.out.println("2. Listar todas las reservas");
             System.out.println("3. Historial de reservas de un cliente");
             System.out.print("Elige una opción: ");
-
             opcion = sc.nextInt();
+            System.out.println();
+
 
             switch (opcion) {
-                case 0:
-                    System.out.println("Volviendo al menú principal...");
-                    break;
-
-                case 1:
-                    registrarReserva();
-                    break;
-
-                case 2:
-                    listarReservas();
-                    break;
-
-                case 3:
-                    historialCliente();
-                    break;
-
-                default:
-                    System.out.println("Opción no válida.");
+            
+            case 0 -> System.out.println("Volviendo al menú principal...");
+            case 1 -> registrarReserva();
+            case 2 -> listarReservas();
+            case 3 -> historialCliente();
+            default -> System.out.println("Opción no válida.");
+            
             }
            } catch (InputMismatchException e) {//Captura el error si el usuario introduce letras en vez de números
 
@@ -144,26 +134,18 @@ public class ReservaView {
             System.out.println("1. Ordenados alfabéticamente");
             System.out.println("2. Orden de inserción");
             System.out.print("Elige una opción: ");
-
             opcion = sc.nextInt();
             sc.nextLine(); //Limpiamos buffer
+            System.out.println();
+
 
             switch (opcion) {
 
-                case 0:
-                    System.out.println("Volviendo...");
-                    break;
-
-                case 1:
-                    listarReservasOrdenados(); //Llamamos al método que lista ordenado
-                    break;
-
-                case 2:
-                    listarReservasInsercion(); //Llamamos al método que lista sin ordenar
-                    break;
-
-                default:
-                    System.out.println("Opción no válida.");
+            case 0 -> System.out.println("Volviendo...");
+            case 1 -> listarReservasOrdenados(); //Llamamos al método que lista ordenado
+            case 2 -> listarReservasInsercion(); //Llamamos al método que lista sin ordenar
+            default -> System.out.println("Opción no válida.");
+            
             }
         } catch (InputMismatchException e) {//Captura el error si el usuario introduce letras en vez de números
 
@@ -185,20 +167,18 @@ public class ReservaView {
         }
     }
 
-    //Método para listar reservas sin orden usando un HashMap (clave = ID_reserva, valor = Reserva)
+    //Método para listar reservas en orden de inserción
     private void listarReservasInsercion() {
 
         System.out.println("---RESERVAS POR INSERCIÓN---");
-        //Rellenamos el HashMap con las reservas SIN ORDEN
-        Map<Integer, Reserva> mapaReservas =
-                controlador.listarReservasInsercion().stream()//Uso de stream ya que el controlador devuelve una lista, así podemos convertirla a Map con Collectors
-                    .collect(Collectors.toMap(
-                        r -> r.getID_reserva(),  // clave
-                        r -> r                   // valor
-                    ));
 
-            //Imprimimos usando lambdas
-            mapaReservas.values().forEach(System.out::println);
+        LinkedHashMap<Integer, Reserva> mapaClientes = new LinkedHashMap<>();//LinkedHashMap para mantener el orden de inserción
+
+        controlador.listarReservasInsercion().stream()//Paso la lista de reservas a un stream para poder usar forEach
+                   .forEach(c -> mapaClientes.put(c.getID_reserva(), c));//Con el forEach obtengo de cada reserva su ID_reserva y su objeto reserva completo para guardarlo en el LinkedHashMap
+
+        //Uso de expresiones lambda para imprimir cada reserva en orden de inserción
+        mapaClientes.values().forEach(System.out::println);
     }
 
 //---------------------------------------------------------------------------------------------------------------------------------------

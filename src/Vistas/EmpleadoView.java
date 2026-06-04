@@ -2,12 +2,11 @@ package Vistas;
 
 import java.util.InputMismatchException;
 import java.util.Iterator;
-import java.util.Map;
+import java.util.LinkedHashMap;
 import java.util.Scanner;
-import java.util.stream.Collectors;
-
 import Controlador.EmpleadoControlador;
 import DTO.Empleado;
+import Excepciones.EmpleadoInvalidoException;
 
 public class EmpleadoView {
 
@@ -28,24 +27,17 @@ public class EmpleadoView {
             System.out.println("1. Registrar empleado");
             System.out.println("2. Listar todos los empleados");
             System.out.print("Elige una opción: ");
-
             opcion = sc.nextInt();
+            System.out.println();
+
 
             switch (opcion) {
-                case 0:
-                    System.out.println("Volviendo al menú principal...");
-                    break;
-
-                case 1:
-                    registrarEmpleado();
-                    break;
-
-                case 2:
-                    listarEmpleados();
-                    break;
-
-                default:
-                    System.out.println("Opción no válida.");
+            
+            case 0 -> System.out.println("Volviendo al menú principal...");
+            case 1 -> registrarEmpleado();
+            case 2 -> listarEmpleados();
+            default -> System.out.println("Opción no válida.");
+            
             }
           } catch (InputMismatchException e) {//Captura el error si el usuario introduce letras en vez de números
 
@@ -79,7 +71,7 @@ public class EmpleadoView {
         try {
             controlador.registrarEmpleado(e);
             System.out.println("Empleado registrado correctamente.");
-        } catch (Exception ex) {
+        } catch (EmpleadoInvalidoException ex) {
             System.out.println("Error: " + ex.getMessage());
         }
     }
@@ -100,26 +92,18 @@ public class EmpleadoView {
             System.out.println("1. Ordenados alfabéticamente");
             System.out.println("2. Orden de inserción");
             System.out.print("Elige una opción: ");
-
             opcion = sc.nextInt();
-            sc.nextLine();
+            sc.nextLine(); //Limpiamos buffer
+            System.out.println();
+
 
             switch (opcion) {
 
-                case 0:
-                    System.out.println("Volviendo...");
-                    break;
-
-                case 1:
-                    listarEmpleadosOrdenados();
-                    break;
-
-                case 2:
-                    listarEmpleadosInsercion();
-                    break;
-
-                default:
-                    System.out.println("Opción no válida.");
+            case 0 -> System.out.println("Volviendo...");
+            case 1 -> listarEmpleadosOrdenados();
+            case 2 -> listarEmpleadosInsercion();
+            default -> System.out.println("Opción no válida.");
+            
             }
         } catch (InputMismatchException e) {//Captura el error si el usuario introduce letras en vez de números
 
@@ -140,18 +124,17 @@ public class EmpleadoView {
         }
     }
 
-    //Lista sin ordenar usando HashMap + Streams
+    //Método para listar empleados en orden de inserción
     private void listarEmpleadosInsercion() {
 
         System.out.println("---EMPLEADOS POR INSERCIÓN---");
 
-        Map<Integer, Empleado> mapaEmpleados =
-                controlador.listarEmpleadosInsercion().stream() //Uso de stream ya que el controlador devuelve una lista, así podemos convertirla a Map con Collectors
-                    .collect(Collectors.toMap(
-                        e -> e.getID_empleado(), //Clave = ID_empleado
-                        e -> e                   //Valor = Empleado
-                    ));
+        LinkedHashMap<Integer, Empleado> mapaClientes = new LinkedHashMap<>();//LinkedHashMap para mantener el orden de inserción
 
-        mapaEmpleados.values().forEach(System.out::println);//Uso de lambda para imprimir
+        controlador.listarEmpleadosInsercion().stream()//Paso la lista de empleados a un stream para poder usar forEach
+                   .forEach(c -> mapaClientes.put(c.getID_empleado(), c));//Con el forEach obtengo de cada empleado su ID_empleado y su objeto empleado completo para guardarlo en el LinkedHashMap
+
+        //Uso de expresiones lambda para imprimir cada empleado en orden de inserción
+        mapaClientes.values().forEach(System.out::println);
     }
 }

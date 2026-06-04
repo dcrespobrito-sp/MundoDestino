@@ -84,8 +84,6 @@ public class ReservaControlador implements Validar<Reserva> {
     	        throw new ReservaInvalidoException("No existen reservas asociadas al cliente con ID: " + ID_cliente);
     	    }
 
-    	    Collections.sort(lista);
-
     	    return lista;
     	}
     

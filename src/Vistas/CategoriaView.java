@@ -2,10 +2,8 @@ package Vistas;
 
 import java.util.InputMismatchException;
 import java.util.Iterator;
-import java.util.Map;
+import java.util.LinkedHashMap;
 import java.util.Scanner;
-import java.util.stream.Collectors;
-
 import Controlador.CategoriaControlador;
 import DTO.Categoria;
 import Excepciones.CategoriaInvalidoException;
@@ -27,25 +25,20 @@ public class CategoriaView {
             System.out.println("1. Registrar categoría");
             System.out.println("2. Listar categorías");
             System.out.print("Elige una opción: ");
-
             opcion = sc.nextInt();
+            System.out.println();
+
+            
 
             switch (opcion) {
 
-                case 0:
-                    System.out.println("Volviendo al menú principal...");
-                    break;
+                case 0 -> System.out.println("Volviendo al menú principal...");
 
-                case 1:
-                    registrarCategoria();
-                    break;
+                case 1 -> registrarCategoria();
 
-                case 2:
-                    listarCategorias();
-                    break;
+                case 2 -> listarCategorias();
 
-                default:
-                    System.out.println("Opción no válida.");
+                default-> System.out.println("Opción no válida.");
             }
         } catch (InputMismatchException e) {//Captura el error si el usuario introduce letras en vez de números
 
@@ -87,26 +80,21 @@ public class CategoriaView {
             System.out.println("1. Ordenadas alfabéticamente");
             System.out.println("2. Orden de inserción");
             System.out.print("Elige una opción: ");
-
             opcion = sc.nextInt();
             sc.nextLine(); //Limpiamos buffer
+            System.out.println();
+
+
 
             switch (opcion) {
 
-                case 0:
-                    System.out.println("Volviendo...");
-                    break;
+                case 0 -> System.out.println("Volviendo...");
 
-                case 1:
-                    listarCategoriasOrdenadas(); //Lista ordenada usando compareTo()
-                    break;
+                case 1 -> listarCategoriasOrdenadas(); //Lista ordenada usando compareTo()
 
-                case 2:
-                    listarCategoriasInsercion(); //Lista sin ordenar usando HashMap + Streams
-                    break;
+                case 2 -> listarCategoriasInsercion(); //Lista sin ordenar usando HashMap + Streams
 
-                default:
-                    System.out.println("Opción no válida.");
+                default -> System.out.println("Opción no válida.");
             }
         } catch (InputMismatchException e) {//Captura el error si el usuario introduce letras en vez de números
 
@@ -129,21 +117,19 @@ public class CategoriaView {
         }
     }
 
-    //Método para listar categorías en orden de inserción usando un HashMap + Streams
+    //Método para listar categorías en orden de inserción
     private void listarCategoriasInsercion() {
 
         System.out.println("---CATEGORÍAS POR INSERCIÓN---");
 
-        //Convertimos la lista del controlador en un Map usando Streams
-        Map<Integer, Categoria> mapaCategorias =
-                controlador.listarCategoriasInsercion().stream()//Uso de stream ya que el controlador devuelve una lista, así podemos convertirla a Map con Collectors
-                    .collect(Collectors.toMap(
-                        c -> c.getID_categoria(), //Clave = ID_categoria
-                        c -> c                    //Valor = objeto Categoria
-                    ));
+        LinkedHashMap<Integer, Categoria> mapaClientes = new LinkedHashMap<>();//LinkedHashMap para mantener el orden de inserción
 
-        //Imprimimos usando lambdas
-        mapaCategorias.values().forEach(System.out::println);
+        controlador.listarCategoriasInsercion().stream()//Paso la lista de categorías a un stream para poder usar forEach
+                   .forEach(c -> mapaClientes.put(c.getID_categoria(), c));//Con el forEach obtengo de cada categoría su ID_categoria y su objeto categoría completo para guardarlo en el LinkedHashMap
+
+        //Uso de expresiones lambda para imprimir cada categoría en orden de inserción
+        mapaClientes.values().forEach(System.out::println);
     }
+    
 }
 //------------------------------------------------------------------------------------------------------------------

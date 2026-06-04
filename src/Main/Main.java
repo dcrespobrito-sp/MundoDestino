@@ -40,37 +40,21 @@ public class Main {
 				System.out.println("4. Categoria");
 				System.out.println("5. Reserva");
 				System.out.print("Elige una opción: ");
-
 				opcion = sc.nextInt();
+				System.out.println();
+
+				
 
 				switch (opcion) {
-
-				case 0:
-					System.out.println("Saliendo del programa...");
-					break;
-
-				case 1:
-					clienteView.menuCliente();
-					break;
-
-				case 2:
-					empleadoView.menuEmpleado();
-					break;
-
-				case 3:
-					destinoView.menuDestino();
-					break;
-
-				case 4:
-					categoriaView.menuCategoria();
-					break;
-
-				case 5:
-					reservaView.menuReserva();
-					break;
-
-				default:
-					System.out.println("Opción no válida.");
+			
+				case 0 -> System.out.println("Saliendo del programa...");
+				case 1 -> clienteView.menuCliente();
+				case 2 -> empleadoView.menuEmpleado();
+				case 3 -> destinoView.menuDestino();
+				case 4 -> categoriaView.menuCategoria();
+				case 5 -> reservaView.menuReserva();
+				default -> System.out.println("Opción no válida.");
+			
 				}
 
 			} catch (InputMismatchException e) {//Captura el error si el usuario introduce letras en vez de números

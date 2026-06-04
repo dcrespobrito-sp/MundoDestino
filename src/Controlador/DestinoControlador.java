@@ -54,9 +54,7 @@ public class DestinoControlador implements Validar<Destino> {
 
         //ID negativo o 0
         if (ID_categoria <= 0) {
-            throw new DestinoInvalidoException(
-                "El ID de categoría debe ser mayor que 0."
-            );
+            throw new DestinoInvalidoException("El ID de categoría debe ser mayor que 0.");
         }
 
         ArrayList<Destino> lista = dao.listarPorCategoria(ID_categoria);
@@ -65,8 +63,6 @@ public class DestinoControlador implements Validar<Destino> {
         if (lista.isEmpty()) {
             throw new DestinoInvalidoException("No existen destinos disponibles para la categoría con ID: "+ ID_categoria);
         }
-
-        Collections.sort(lista);
 
         return lista;
     }
@@ -82,8 +78,7 @@ public class DestinoControlador implements Validar<Destino> {
 
             dao.actualizar(d);
 
-        } catch (SQLException e) {
-
+        } catch (SQLException e) {//Ponemos SQLException pq viene del DAO, pero realmente es una excepción personalizada para el controlador
             throw new DestinoInvalidoException("No existe ningún destino con ID: "+ d.getID_destino());
         }
     }
@@ -98,7 +93,7 @@ public class DestinoControlador implements Validar<Destino> {
 
             dao.eliminar(ID_destino);
 
-        } catch (SQLException e) {
+        } catch (SQLException e) {//Ponemos SQLException pq viene del DAO, pero realmente es una excepción personalizada para el controlador
             throw new DestinoInvalidoException("No existe ningún destino con ID: "+ ID_destino);
         }
     }
